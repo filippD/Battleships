@@ -105,7 +105,7 @@ class Gameboard {
 	addShip(length, x, y) {
 		
 		if(this.validatePosition(length, x, y)) {
-			console.log(x,y)
+			// console.log(x,y)
 			this.ships[length]++;
 			const ship = new Ship(length);
 			for(let i = y; i<length+y; i++) {

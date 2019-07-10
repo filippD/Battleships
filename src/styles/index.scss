@@ -17,3 +17,21 @@
 .ship {
 	background: grey;
 }
+
+.game {
+	display: grid;
+	grid-template-columns: 40% 40%;
+	justify-content: space-between;
+}
+
+.hitShip {
+	background: orange;
+}
+
+.destroyedShip {
+	background: red;
+}
+
+.hit {
+	background: yellow;
+}

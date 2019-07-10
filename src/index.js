@@ -4,7 +4,7 @@ const Player = require('./player');
 
 
 const player1 = new Player('player');
-// const player2 = new Player('computer');
+const player2 = new Player('computer');
 
 // const addEvent = (div) => {
 // 	div.addEventListener('click', (e) => {
@@ -46,7 +46,33 @@ const randomize = (player) => {
 	displayBoard(player, 'board1')
 }
 
+const start = () => {
+	player1.gameboard.fillBoard()
+	displayBoard(player1, 'board1')
+	player2.gameboard.fillBoard()
+	displayBoard(player2, 'board2')
+	const board = document.getElementById('board2')
+	board.addEventListener('click', (e) => {
+		let ship 
+		if ( player2.gameboard.board[Number(e.target.id[0])][Number(e.target.id[1])] !== null ) {
+			ship = player2.gameboard.board[Number(e.target.id[0])][Number(e.target.id[1])]
+			e.target.classList.add('hitShip')	
+		} else {
+			e.target.classList.add('hit')
+		}
+		player2.gameboard.receiveAttack(Number(e.target.id[0]), Number(e.target.id[1]))
+		if (ship && ship.isSunk()) {
+			e.target.classList.add('destroyedShip')
+		}
+		if (!player2.gameboard.anyShipsLeft()) {
+			let msg = document.getElementById('msg');
+			msg.innerHTML = 'Player won'
+		}
+		
+	})
+}
+
 const randButton = document.getElementById('Randomize')
 const dispButton = document.getElementById('Display')
 randButton.addEventListener('click', ()=>{randomize(player1)})
-// dispButton.addEventListener('click', ()=>{displayBoard(player1, 'board1')})
+dispButton.addEventListener('click', ()=>{start()})
