@@ -2,18 +2,7 @@ const Ship = require('./ship')
 
 class Gameboard {
 	constructor() {
-		this.board = [
-			[null, null, null, null, null, null, null, null, null, null],
-			[null, null, null, null, null, null, null, null, null, null],
-			[null, null, null, null, null, null, null, null, null, null],
-			[null, null, null, null, null, null, null, null, null, null],
-			[null, null, null, null, null, null, null, null, null, null],
-			[null, null, null, null, null, null, null, null, null, null],
-			[null, null, null, null, null, null, null, null, null, null],
-			[null, null, null, null, null, null, null, null, null, null],
-			[null, null, null, null, null, null, null, null, null, null],
-			[null, null, null, null, null, null, null, null, null, null]
-		]
+		this.board = new Array(100).fill(null)
 
 		this.ships = {
 			'4': 0,
@@ -31,98 +20,94 @@ class Gameboard {
 			'2': 0,
 			'1': 0
 		}
-		this.board = [
-			[null, null, null, null, null, null, null, null, null, null],
-			[null, null, null, null, null, null, null, null, null, null],
-			[null, null, null, null, null, null, null, null, null, null],
-			[null, null, null, null, null, null, null, null, null, null],
-			[null, null, null, null, null, null, null, null, null, null],
-			[null, null, null, null, null, null, null, null, null, null],
-			[null, null, null, null, null, null, null, null, null, null],
-			[null, null, null, null, null, null, null, null, null, null],
-			[null, null, null, null, null, null, null, null, null, null],
-			[null, null, null, null, null, null, null, null, null, null]
-		]
-		while(this.ships[4] !== 1) {
-			this.addShip(4, Math.floor(Math.random() * 10), Math.floor(Math.random() * 10) )
+
+		this.board = new Array(100).fill(null)
+		while(this.ships[4] < 1) {
+			this.addShip(4, Math.floor(Math.random() * 100), Math.random() >= 0.5)
 		}
 
-		while(this.ships[3] !== 2) {
-			this.addShip(3, Math.floor(Math.random()*10), Math.floor(Math.random()*10) )
+		while(this.ships[3] < 2) {
+			this.addShip(3, Math.floor(Math.random() * 100), Math.random() >= 0.5)
 		}
 
-		while(this.ships[2] !== 3) {
-			this.addShip(2, Math.floor(Math.random() * 10), Math.floor(Math.random() * 10) )
+		while(this.ships[2] < 3) {
+			this.addShip(2, Math.floor(Math.random() * 100), Math.random() >= 0.5)
 		}
 
-		while(this.ships[1] !== 4) {
-			this.addShip(1, Math.floor(Math.random() * 10), Math.floor(Math.random() * 10) )
+		while(this.ships[1] < 4) {
+			this.addShip(1, Math.floor(Math.random() * 100), Math.random() >= 0.5)
 		}
 	}
 
-	validatePosition(length, x, y) {
-		// let ok = true
-		// for (let i = y; y<=length; i++) {
-		// 	if (this.board[x][i] !== null) {
-		// 		ok = false 
-		// 	}
-			
-		// 	if (this.board[x-1][i] !== null || this.board[x+1][i] !== null) {
-		// 		ok = false 
-		// 	}
-		// }
-		// if (this.board[x][y-1] !== null || this.board[x][y+length] !== null) {
-		// 	ok = false 
-		// }
-		// return ok
+	validatePosition(length, x, vertical) {
 		let isOk = true;
-		if (y+length > 10) {
-			isOk = false
-		}
-		let minus = y-1 >= 0 ? y-1 : y
-		let plus = y+length+2 <= 9 ? y+length+2 : y+length+1
-		let myField = this.board[x].slice(minus, plus)
-		if(myField.every((val) => val !== null)) {
-			isOk = false 
-		}
-		if (x-1 >= 0) {
-			let myField2 = this.board[x-1].slice(minus, plus)
-			if(myField2.every((val) => val !== null)) {
-				isOk = false 
+		if (vertical) {
+			let row = Math.floor(x/10);
+			if (x+length > row*10+10) {
+				isOk = false
+			}
+			let shouldCheckUpper = row === 9 ? false : true;
+			let shouldCheckLower = row === 0 ? false : true;
+			for (let i = x===0? x : x-1; i<=x+length; i++) {
+				if(this.board[i] !== null) {
+					isOk = false
+				}
+				if (shouldCheckUpper && this.board[i+10] !== null) {
+					isOk = false;
+				}
+				if (shouldCheckLower && this.board[i-10] !== null) {
+					isOk = false
+				}
+			}
+		} else {
+			let column = x-Math.floor(x/10)*10;
+			if (x+length*10 > 100) {
+				isOk = false
+			}
+			let shouldCheckUpper = column === 9 ? false : true;
+			let shouldCheckLower = column === 0 ? false : true;
+			for (let i = x<10? x : x-10; i<=x+length*10; i+=10) {
+				if(this.board[i] !== null) {
+					isOk = false
+				}
+				if (shouldCheckUpper && this.board[i+1] !== null) {
+						isOk = false;
+				}
+				if (shouldCheckLower && this.board[i-1] !== null) {
+					isOk = false
+				}
 			}
 		}
-
-		if (x+1 <= 9) {
-			let myField3 = this.board[x+1].slice(minus, plus)
-			if(myField3.every((val) => val !== null)) {
-				isOk = false 
-			}
-		}
-		
 		return isOk
 	}
 
-	addShip(length, x, y) {
-		
-		if(this.validatePosition(length, x, y)) {
-			// console.log(x,y)
+	addShip(length, x, vertical) {
+		if(this.validatePosition(length, x, vertical)) {
 			this.ships[length]++;
 			const ship = new Ship(length);
-			for(let i = y; i<length+y; i++) {
-				this.board[x][i] = ship
+			if (vertical) {
+				for(let i = x; i<length+x; i++) {
+					this.board[i] = ship;
+					ship.position.push(i)
+				}
+			} else {
+				for(let i = x; i<length*10+x; i+=10) {
+					this.board[i] = ship;
+					ship.position.push(i)
+				}	
 			}
 		}	
 	}
 
-	receiveAttack(x, y) {
-		if (this.board[x][y] !== null && this.board[x][y] !== 'hit') {
-			const ship = this.board[x][y];
+	receiveAttack(x) {
+		if (this.board[x] !== null && this.board[x] !== 'hit') {
+			const ship = this.board[x];
 			ship.damage();
 			if (ship.isSunk()) {
 				this.ships[ship.length]--
 			}
 		}
-		this.board[x][y] = 'hit';
+		this.board[x] = 'hit';
 	}
 
 	anyShipsLeft() {

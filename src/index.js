@@ -6,35 +6,32 @@ const Player = require('./player');
 const player1 = new Player('player');
 const player2 = new Player('computer');
 
-// const addEvent = (div) => {
-// 	div.addEventListener('click', (e) => {
-// 		console.log(e.target.id)
-// 	})
-// }
-
-// const fillBoard = () => {
-
-// }
-
-
-
 const displayBoard = (player, board_id) => {
 	let myBoard = document.getElementById(board_id)
 	myBoard.innerHTML = null
-	for(let i=0; i<10; i++) {
+	let arr = player.gameboard.board
+	for(let i=0; i<arr.length; i+=10) {
 		let div = document.createElement('div');
-		for(let j = 0; j<10; j++) {
+		let row = arr.slice(i,i+10)
+		for(let j = 0; j< row.length; j++) {
 			let innerDiv = document.createElement('div')
 			innerDiv.classList.add('sqr');
-			if (player.gameboard.board[i][j] !== null) {
+			if (arr[i+j] !== null) {
 				innerDiv.classList.add('ship')
 			}
-			innerDiv.innerHTML=`x${i}y${j}`;
-			innerDiv.id=`${i}${j}`
-			// innerDiv.addEventListener('click', (e) => {
-			// 	player.gameboard.receiveAttack(Number(e.target.id[0]), Number(e.target.id[1]))
-			// 	console.log(player.gameboard)
-			// })
+			if (player === player2) {
+				if (i===0) {
+					innerDiv.id = `2${j}`
+				} else {
+					innerDiv.id = `2${i/10}${j}`
+				}	
+			} else {
+				if (i===0) {
+					innerDiv.id = `1${j}`
+				} else {
+					innerDiv.id = `1${i/10}${j}`
+				}
+			}
 			div.appendChild(innerDiv);
 		}
 		myBoard.appendChild(div);
@@ -46,6 +43,40 @@ const randomize = (player) => {
 	displayBoard(player, 'board1')
 }
 
+const AImove = (gameboard) => {
+	let rand = Math.floor(Math.random()*100)
+	while(gameboard.board[rand] === 'hit') {
+		rand = Math.floor(Math.random()*100)
+	}
+	return rand 
+}
+// Number(e.target.id)
+const move = (player, target) => {
+	
+	let ship
+	let divID = player === player1 ? `1${target}` : `2${target}`;
+	console.log(divID)
+	let div = document.getElementById(divID)
+	if ( player.gameboard.board[target] !== null ) {
+		ship = player.gameboard.board[target];
+		div.classList.add('hitShip')	
+	} else {
+		div.classList.add('hit')
+	}
+	player2.gameboard.receiveAttack(target)
+	if (ship !== undefined && ship.isSunk()) {
+		for (let i=0; i<ship.position.length; i++) {
+			let divID = player === player1 ? `1${ship.position[i]}` : `2${ship.position[i]}`;
+			let div = document.getElementById(divID);
+			div.classList.add('destroyedShip')
+		}
+	}
+	if (!player.gameboard.anyShipsLeft()) {
+		let msg = document.getElementById('msg');
+		msg.innerHTML = `${player.type} won`
+	} 
+}
+
 const start = () => {
 	player1.gameboard.fillBoard()
 	displayBoard(player1, 'board1')
@@ -53,22 +84,12 @@ const start = () => {
 	displayBoard(player2, 'board2')
 	const board = document.getElementById('board2')
 	board.addEventListener('click', (e) => {
-		let ship 
-		if ( player2.gameboard.board[Number(e.target.id[0])][Number(e.target.id[1])] !== null ) {
-			ship = player2.gameboard.board[Number(e.target.id[0])][Number(e.target.id[1])]
-			e.target.classList.add('hitShip')	
-		} else {
-			e.target.classList.add('hit')
+		let arr = e.target.id.split('').slice(1)
+		let p1Target = arr.length === 2 ? `${arr[0]}${arr[1]}` : `${arr[0]}`
+		if (player2.gameboard.board[Number(p1Target)] !== 'hit') {
+			move(player2, Number(p1Target))
+			move(player1, AImove(player1.gameboard))
 		}
-		player2.gameboard.receiveAttack(Number(e.target.id[0]), Number(e.target.id[1]))
-		if (ship && ship.isSunk()) {
-			e.target.classList.add('destroyedShip')
-		}
-		if (!player2.gameboard.anyShipsLeft()) {
-			let msg = document.getElementById('msg');
-			msg.innerHTML = 'Player won'
-		}
-		
 	})
 }
 
@@ -76,3 +97,4 @@ const randButton = document.getElementById('Randomize')
 const dispButton = document.getElementById('Display')
 randButton.addEventListener('click', ()=>{randomize(player1)})
 dispButton.addEventListener('click', ()=>{start()})
+// displayBoard(player1, 'board1')
