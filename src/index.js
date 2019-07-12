@@ -16,9 +16,7 @@ const displayBoard = (player, board_id) => {
 		for(let j = 0; j< row.length; j++) {
 			let innerDiv = document.createElement('div')
 			innerDiv.classList.add('sqr');
-			if (arr[i+j] !== null) {
-					innerDiv.classList.add('ship')
-				} // move this
+			
 			if (player === player2) {
 				if (i===0) {
 					innerDiv.id = `2${j}`
@@ -31,8 +29,9 @@ const displayBoard = (player, board_id) => {
 				} else {
 					innerDiv.id = `1${i/10}${j}`
 				}
-				// move ship class here
-				
+				if (arr[i+j] !== null) {
+					innerDiv.classList.add('ship')
+				}
 			}
 			div.appendChild(innerDiv);
 		}
