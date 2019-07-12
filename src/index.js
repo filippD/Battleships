@@ -63,7 +63,7 @@ const move = (player, target) => {
 	} else {
 		div.classList.add('hit')
 	}
-	player2.gameboard.receiveAttack(target)
+	player.gameboard.receiveAttack(target)
 	if (ship !== undefined && ship.isSunk()) {
 		for (let i=0; i<ship.position.length; i++) {
 			let divID = player === player1 ? `1${ship.position[i]}` : `2${ship.position[i]}`;
@@ -97,4 +97,3 @@ const randButton = document.getElementById('Randomize')
 const dispButton = document.getElementById('Display')
 randButton.addEventListener('click', ()=>{randomize(player1)})
 dispButton.addEventListener('click', ()=>{start()})
-// displayBoard(player1, 'board1')
