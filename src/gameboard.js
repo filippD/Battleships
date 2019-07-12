@@ -13,7 +13,6 @@ class Gameboard {
 	}
 
 	fillBoard() {
-		 // && this.ships[3] !== 2 && this.ships[2] !== 3 && this.ships[1] !== 4
 		 this.ships = {
 			'4': 0,
 			'3': 0,
