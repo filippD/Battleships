@@ -7,5 +7,4 @@ class Player {
 	}
 }
 
-// module.exports = Player;
 export default Player

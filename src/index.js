@@ -6,6 +6,8 @@ const board1 = new Gameboard();
 const board2 = new Gameboard()
 const player1 = new Player('Player', board1);
 const player2 = new Player('Computer', board2);
+let p1Missed = true;
+let p2Missed = true;
 
 const displayBoard = (player, board_id) => {
 	let myBoard = document.getElementById(board_id)
@@ -47,13 +49,9 @@ const randomize = (player) => {
 
 const AImove = (gameboard, hit) => {
 	let rand;
-	if (hit) {
-
-	} else {
+	rand = Math.floor(Math.random()*100)
+	while(gameboard.board[rand] === 'hit') {
 		rand = Math.floor(Math.random()*100)
-		while(gameboard.board[rand] === 'hit') {
-			rand = Math.floor(Math.random()*100)
-		}
 	}
 	return rand;
 }
@@ -67,9 +65,19 @@ const move = (player, target) => {
 	let div = document.getElementById(divID);
 	if ( player.gameboard.board[target] !== null ) {
 		ship = player.gameboard.board[target];
-		div.classList.add('hitShip')	
+		div.classList.add('hitShip');
+		 if (player === player1) {
+		 	p2Missed = false;
+		 } else {
+		 	p1Missed = false;
+		 }
 	} else {
-		div.classList.add('hit')
+		div.classList.add('hit');
+		if (player === player1) {
+		 	p2Missed = true;
+		 } else {
+		 	p1Missed = true;
+		 }
 	}
 	
 	player.gameboard.receiveAttack(target)
@@ -87,7 +95,7 @@ const move = (player, target) => {
 		let restartBtn = document.getElementById('restartBtn');
 		restartBtn.classList.remove('hidden');
 		
-	} 
+	}
 }
 
 const play = (e) => {
@@ -95,7 +103,12 @@ const play = (e) => {
 	let p1Target = arr.length === 2 ? `${arr[0]}${arr[1]}` : `${arr[0]}`
 	if (player2.gameboard.board[Number(p1Target)] !== 'hit') {
 		move(player2, Number(p1Target))
-		move(player1, AImove(player1.gameboard))
+		if (p1Missed) {
+			move(player1, AImove(player1.gameboard));
+			while (!p2Missed) {
+				move(player1, AImove(player1.gameboard));
+			}
+		}
 	}
 }
 
