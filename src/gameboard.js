@@ -1,4 +1,4 @@
-const Ship = require('./ship')
+import Ship from './ship';
 
 class Gameboard {
 	constructor() {
@@ -22,19 +22,19 @@ class Gameboard {
 
 		this.board = new Array(100).fill(null)
 		while(this.ships[4] < 1) {
-			this.addShip(4, Math.floor(Math.random() * 100), Math.random() >= 0.5)
+			this.addShip(4, Math.floor(Math.random() * 100), Math.random() >= 0.5, new Ship(4))
 		}
 
 		while(this.ships[3] < 2) {
-			this.addShip(3, Math.floor(Math.random() * 100), Math.random() >= 0.5)
+			this.addShip(3, Math.floor(Math.random() * 100), Math.random() >= 0.5, new Ship(3))
 		}
 
 		while(this.ships[2] < 3) {
-			this.addShip(2, Math.floor(Math.random() * 100), Math.random() >= 0.5)
+			this.addShip(2, Math.floor(Math.random() * 100), Math.random() >= 0.5, new Ship(2))
 		}
 
 		while(this.ships[1] < 4) {
-			this.addShip(1, Math.floor(Math.random() * 100), Math.random() >= 0.5)
+			this.addShip(1, Math.floor(Math.random() * 100), Math.random() >= 0.5, new Ship(1))
 		}
 	}
 
@@ -80,7 +80,7 @@ class Gameboard {
 		return isOk
 	}
 
-	addShip(length, x, vertical) {
+	addShip(length, x, vertical, ship) {
 		if(this.validatePosition(length, x, vertical)) {
 			this.ships[length]++;
 			const ship = new Ship(length);
@@ -120,4 +120,4 @@ class Gameboard {
 	}
 }
 
-module.exports = Gameboard;
+export default Gameboard

@@ -12,15 +12,10 @@ class Ship {
 	isSunk() {
 		if (this.hp === 0) {
 			return true
-		} else {
-			return false
 		}
+	    return false
 	}
-
-	// isSunk() {
-	// 	return this.status.every((status) => status === "hit")
-	// }
 
 }
 
-module.exports = Ship;
+export default Ship;

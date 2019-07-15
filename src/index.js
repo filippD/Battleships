@@ -1,10 +1,11 @@
 import './styles/index.scss'
+import Player from './player';
+import Gameboard from './gameboard';
 
-const Player = require('./player');
-
-
-const player1 = new Player('Player');
-const player2 = new Player('Computer');
+const board1 = new Gameboard();
+const board2 = new Gameboard()
+const player1 = new Player('Player', board1);
+const player2 = new Player('Computer', board2);
 
 const displayBoard = (player, board_id) => {
 	let myBoard = document.getElementById(board_id)

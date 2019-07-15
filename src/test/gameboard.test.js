@@ -1,12 +1,11 @@
-const Gameboard = require('../gameboard')
-const Ship = require('../ship')
+import Gameboard from '../gameboard';
+import Ship from '../ship';
 
 const gameboard = new Gameboard()
 
 test('addShip', () => {
   let ship = new Ship(2)
-  // ship.position = 
-  gameboard.addShip(2, 2, true);
+  gameboard.addShip(2, 2, true, ship);
   ship.position = [2,3];
   expect(gameboard.board.slice(0,10)).toEqual([null, null, ship, ship, null, null, null, null, null, null]);
 });
