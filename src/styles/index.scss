@@ -1,0 +1,100 @@
+@import url('https://fonts.googleapis.com/css?family=Rajdhani&display=swap');
+
+body {
+	background: linear-gradient(37deg, rgba(119,170,199,1) 6%, rgba(104,162,187,1) 16%, rgba(0,107,107,1) 89%, rgba(0,107,107,1) 100%);
+	font-family: 'Rajdhani', sans-serif;
+}
+
+h1 {
+	font-size: 3em;
+	margin-bottom: 5px; 
+}
+
+
+
+.msg {
+	margin-top: 0; 
+}
+
+.main {
+	width: 90%;
+	margin: 0 auto;
+	text-align: center;
+}
+
+.sqr {
+	border: 1px solid black;
+	height: 50px;
+	width: 50px;
+}
+
+.board {
+	display: flex;
+	align-content: center;
+	justify-content: center;
+}
+
+.ship {
+	background: grey;
+}
+
+.game {
+	display: grid;
+	grid-template-columns: 40% 40%;
+	justify-content: space-around;
+	// align-content: center;
+	// justify-content: center;
+}
+
+.hitShip {
+	background: orange;
+}
+
+.destroyedShip {
+	background: red;
+}
+
+.hit {
+	background: yellow;
+}
+
+.hidden {
+	display: none;
+}
+
+.btn {
+	padding: 30px;
+	background: red;
+	border-radius: 30%;
+	border: 2px solid black;
+	font-size: 1.2em;
+}
+
+.buttons {
+	margin: auto 30px;
+}
+
+.legend {
+	margin-top: 20px;
+	display: grid;
+	grid-template-columns: 20% 20% 20% 20%;
+	justify-content: center;
+	text-align: center;
+}
+
+.legend-item {
+	display: flex;
+	justify-content: center;
+}
+
+.legend-sqr {
+	margin: 0 15px;
+}
+
+.top-btn {
+	background: red;
+	padding: 10px 60px;
+	border: 1px solid black;
+	border-radius: 5px;
+	margin-bottom: 20px;
+}

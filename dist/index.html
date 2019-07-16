@@ -1,9 +1,32 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
+	<title>Battleship</title>
 </head>
 <body>
+<div class='main'>
+	<h1>Battleship</h1>
+	<h2 id='msg' class="msg"></h2>
+	<button id='restartBtn' class="top-btn hidden">Play Again?</button>
+	<div class="game">
+		<div id=board1 class="board">
+		</div>
+		<div id="board2" class="board hidden">
+			
+		</div>
+		<div class="buttons" id='btnDiv'>
+				<button class='btn' id='Randomize'>Randomize</button>
+				<button class='btn' id='Start'>Start</button>
+		</div>
+	</div>
+	<h2>Legend</h2>
+	<div class="legend">
+		<div class="legend-item"><div class="sqr ship legend-sqr"></div><p> - Ship</p></div>
+		<div class="legend-item"><div class="sqr hit legend-sqr"></div><p> - Miss</p></div>
+		<div class="legend-item"><div class="sqr hitShip legend-sqr"></div><p> - Hit</p></div>
+		<div class="legend-item"><div class="sqr destroyedShip legend-sqr"></div><p> - Destroyed</p></div>
+	</div>
+</div>
 <script src="main.js"></script>
 </body>
 </html>

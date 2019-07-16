@@ -8,14 +8,30 @@
     "build": "webpack",
     "watch": "webpack --watch"
   },
+  "jest": {
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "<rootDir>/config/webpack/test.js"
+    ]
+  },
+  "babel": {
+    "plugins": ["transform-es2015-modules-commonjs"]
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
+    "postcss-loader": "^3.0.0",
+    "sass-loader": "^7.1.0",
     "webpack": "^4.35.3",
     "webpack-cli": "^3.3.5"
   },
   "dependencies": {
-    "jest": "^24.8.0"
+    "autoprefixer": "^9.6.1",
+    "css-loader": "^3.0.0",
+    "jest": "^24.8.0",
+    "node-sass": "^4.12.0",
+    "style-loader": "^0.23.1"
   }
 }
