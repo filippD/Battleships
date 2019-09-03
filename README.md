@@ -15,3 +15,10 @@ App to play Battleship (also Battleships or Sea Battle) a strategy type guessing
 ## Running the tests
 
 Run `npm run test`
+
+
+## Future features
+
+* Option to play vs another player
+* Ability to fully cusomize your ships' position
+* Hard mode against computer
